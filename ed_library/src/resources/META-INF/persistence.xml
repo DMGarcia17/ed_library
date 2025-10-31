@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="edPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Registra aquí tus entidades o usa classpath scanning si prefieres -->
+        <class>org.dmgarcia.app.model.User</class>
+
+        <properties>
+            <!-- JDBC (Hikari) -->
+            <property name="hibernate.connection.provider_class"
+                      value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
+            <property name="hibernate.hikari.dataSourceClassName" value="org.postgresql.ds.PGSimpleDataSource"/>
+            <property name="hibernate.hikari.dataSource.serverName" value="fedora"/>
+            <property name="hibernate.hikari.dataSource.portNumber" value="5432"/>
+            <property name="hibernate.hikari.dataSource.databaseName" value="ed_db"/>
+            <property name="hibernate.hikari.dataSource.user" value="lb"/>
+            <property name="hibernate.hikari.dataSource.password" value="U,n#wxUpP8vD^8US7Z2"/>
+            <property name="hibernate.hikari.maximumPoolSize" value="10"/>
+
+            <!-- Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/> <!-- 'update' en dev si te ayuda -->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
