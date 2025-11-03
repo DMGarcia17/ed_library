@@ -21,44 +21,37 @@
             <artifactId>hibernate-core</artifactId>
             <version>6.5.2.Final</version>
         </dependency>
-
+        <!-- Hibernate HikariCP integration -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-hikaricp</artifactId>
             <version>6.5.2.Final</version>
         </dependency>
-
-        <!-- PostgreSQL JDBC driver -->
+        <!-- PostgreSQL JDBC -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.4</version>
         </dependency>
-
-
-        <!-- HikariCP (pool de conexiones) -->
+        <!-- HikariCP -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>5.1.0</version>
         </dependency>
-
-
-        <!-- FlatLaf (look & feel moderno para Swing) -->
+        <!-- FlatLaf -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
             <version>3.4.1</version>
         </dependency>
-
-
-        <!-- MigLayout (layout manager cómodo) -->
+        <!-- MigLayout -->
         <dependency>
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-swing</artifactId>
             <version>11.4</version>
         </dependency>
-
+        <!-- SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -70,11 +63,17 @@
             <version>2.0.13</version>
             <scope>runtime</scope>
         </dependency>
-
+        <!-- BCrypt -->
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
+        </dependency>
+        <!-- Jakarta Persistence API (interfaces) -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
 
     </dependencies>
@@ -86,7 +85,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <mainClass>com.dmgarcia.app.Main</mainClass>
+                    <mainClass>org.dmgarcia.app.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

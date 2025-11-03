@@ -1,8 +1,10 @@
 package org.dmgarcia.app.ui;
 
 import net.miginfocom.swing.MigLayout;
+import org.dmgarcia.app.service.AuthService;
 
 import javax.swing.*;
+import java.util.Set;
 
 public class LoginPanel extends JPanel {
     public LoginPanel(NavigationController nav) {

@@ -9,6 +9,7 @@
 
         <!-- Registra aquí tus entidades o usa classpath scanning si prefieres -->
         <class>org.dmgarcia.app.model.User</class>
+        <class>org.dmgarcia.app.model.Role</class>
 
         <properties>
             <!-- JDBC (Hikari) -->
@@ -17,7 +18,7 @@
             <property name="hibernate.hikari.dataSourceClassName" value="org.postgresql.ds.PGSimpleDataSource"/>
             <property name="hibernate.hikari.dataSource.serverName" value="fedora"/>
             <property name="hibernate.hikari.dataSource.portNumber" value="5432"/>
-            <property name="hibernate.hikari.dataSource.databaseName" value="ed_db"/>
+            <property name="hibernate.hikari.dataSource.databaseName" value="test"/>
             <property name="hibernate.hikari.dataSource.user" value="lb"/>
             <property name="hibernate.hikari.dataSource.password" value="U,n#wxUpP8vD^8US7Z2"/>
             <property name="hibernate.hikari.maximumPoolSize" value="10"/>

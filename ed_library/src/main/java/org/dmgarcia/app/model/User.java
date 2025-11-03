@@ -38,6 +38,12 @@ public class User {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "rol_x_user",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "rol_code")
+    )
     private Set<Role> roles = new HashSet<>();
 
     public boolean hasRole(String roleCode){

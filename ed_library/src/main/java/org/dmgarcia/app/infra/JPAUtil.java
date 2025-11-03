@@ -8,7 +8,7 @@ public class JPAUtil {
 
     private static EntityManagerFactory build() {
         try {
-            EntityManagerFactory f = Persistence.createEntityManagerFactory("appPU");
+            EntityManagerFactory f = Persistence.createEntityManagerFactory("edPU");
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 if (f.isOpen()) f.close();
             }));
