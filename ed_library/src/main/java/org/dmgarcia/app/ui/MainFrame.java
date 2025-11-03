@@ -18,6 +18,11 @@ public class MainFrame extends JFrame {
         setSize(1000,650);
         setLocationRelativeTo(null);
 
-        // TODO: add panes
+        root.add(new LoginPanel(nav), CARD_LOGIN);
+        root.add(new AdminPanel(nav), CARD_ADMIN);
+        root.add(new UserPanel(nav), CARD_USER);
+
+        setContentPane(root);
+        nav.showLogin();
     }
 }
