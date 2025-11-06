@@ -71,7 +71,7 @@ public class AdminPanel extends JPanel {
     }
 
     private void registerDefaultScreens() {
-        JPanel usersPanel = buildPlaceholderPanel("Pantalla de administración de usuarios");
+        JPanel usersPanel = new UsersAdminPanel();
         JPanel rolesPanel = buildPlaceholderPanel("Pantalla de administración de roles");
         JPanel booksPanel = buildPlaceholderPanel("Pantalla de administración de libros");
 
