@@ -7,6 +7,7 @@ import org.dmgarcia.app.security.SessionContext;
 import org.dmgarcia.app.security.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -23,13 +24,16 @@ public class AuthService {
     }
 
     public User createUser(String username, String passwordPlain,
-                           String firstName, String lastName, Set<String> roleCodes){
+                           String firstName, String middleName, String lastName, String familyName, Set<String> roleCodes, LocalDate birthdate){
         User u = new User();
         u.setFirstName(firstName);
+        u.setMiddleName(middleName);
         u.setLastName(lastName);
+        u.setFamilyName(familyName);
         u.setUsername(username);
         u.setPasswordHash(BCrypt.hashpw(passwordPlain, BCrypt.gensalt()));
         u.setLastUpdatePassword(LocalDateTime.now());
+        u.setBirthday(birthdate);
 
         for(String code : roleCodes) {
             Role r = roleRepo.findActive(code)

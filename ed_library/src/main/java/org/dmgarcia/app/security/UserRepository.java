@@ -12,13 +12,10 @@ import java.util.Set;
 
 public class UserRepository extends BaseRepository {
     public Optional<User> findActiveByUsername(String username){
-        EntityManager em = JPAUtil.getEMF().createEntityManager();
-        try{
+        try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
             var q = em.createQuery("select u from User u where u.username = :u", User.class);
             q.setParameter("u", username);
             return q.getResultStream().findFirst();
-        } finally {
-            em.close();
         }
     }
 
@@ -27,9 +24,9 @@ public class UserRepository extends BaseRepository {
         try{
             var q = em.createQuery(
                     "select distinct u from User u " +
-                    "left join fetch u.roles r " +
-                    "where u.username = :u and u.deletedAt is null " +
-                    "and (r.deletedAt is null or r is null)", User.class);
+                            "left join fetch u.roles r " +
+                            "where u.username = :u and u.deletedAt is null " +
+                            "and (r.deletedAt is null or r is null)", User.class);
             q.setParameter("u", username);
             return q.getResultStream().findFirst();
         } finally {
@@ -55,6 +52,16 @@ public class UserRepository extends BaseRepository {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         try{
             return em.createQuery("select u from User u where u.deletedAt is null order by u.username"
+                    , User.class).getResultList();
+        }finally {
+            em.close();
+        }
+    }
+
+    public List<User> findAllWithRoles(){
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+        try{
+            return em.createQuery("select distinct u from User u left join fetch u.roles where u.deletedAt is null order by u.username"
                     , User.class).getResultList();
         }finally {
             em.close();

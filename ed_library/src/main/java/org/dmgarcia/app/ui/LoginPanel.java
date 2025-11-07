@@ -1,6 +1,8 @@
 package org.dmgarcia.app.ui;
 
+import jakarta.persistence.EntityManager;
 import net.miginfocom.swing.MigLayout;
+import org.dmgarcia.app.infra.JPAUtil;
 import org.dmgarcia.app.service.AuthService;
 
 import javax.swing.*;
@@ -15,6 +17,9 @@ public class LoginPanel extends JPanel {
         var txtPass = new JPasswordField(20);
         var btnLogin = new JButton("Iniciar Sesión");
 
+        EntityManager em= JPAUtil.getEMF().createEntityManager();
+        em.close();
+        
         add(lblUser);
         add(txtUser);
         add(lblPass);
