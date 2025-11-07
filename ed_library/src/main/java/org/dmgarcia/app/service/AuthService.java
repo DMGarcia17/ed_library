@@ -36,7 +36,7 @@ public class AuthService {
         u.setBirthday(birthdate);
 
         for(String code : roleCodes) {
-            Role r = roleRepo.findActive(code)
+            Role r = roleRepo.findActive(code.toLowerCase())
                     .orElseThrow(() -> new IllegalArgumentException("Role not found: "+code));
             u.getRoles().add(r);
         }

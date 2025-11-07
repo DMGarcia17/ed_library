@@ -255,6 +255,7 @@ public class UsersAdminPanel extends JPanel {
                 JOptionPane.YES_NO_OPTION);
 
         if(resp==JOptionPane.YES_OPTION){
+            userRep.softDelete(usersModel.getValueAt(selected, 0).toString());
             usersModel.removeRow(selected);
             clearForm();
         }
