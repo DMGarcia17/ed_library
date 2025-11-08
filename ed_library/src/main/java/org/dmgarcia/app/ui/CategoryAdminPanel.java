@@ -194,7 +194,7 @@ public class CategoryAdminPanel extends JPanel {
         if(selected==-1) return;
 
         int resp = JOptionPane.showConfirmDialog(this,
-                "¿Estas seguro que deseas eliminar este usuario?",
+                "¿Estas seguro que deseas eliminar esta categoría?",
                 "Confirmar",
                 JOptionPane.YES_NO_OPTION);
 
