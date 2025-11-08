@@ -54,6 +54,10 @@ public class AdminPanel extends JPanel {
         btnCategories.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnCategories.addActionListener(e->showScreen("categorias"));
 
+        JButton btnAuthor = new JButton("Autores");
+        btnAuthor.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnAuthor.addActionListener(e->showScreen("autor"));
+
         JButton btnLogout = new JButton("Cerrar Sesión");
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLogout.addActionListener(e->nav.logout());
@@ -67,6 +71,8 @@ public class AdminPanel extends JPanel {
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnCategories);
         menu.add(Box.createVerticalStrut(15));
+        menu.add(btnAuthor);
+        menu.add(Box.createVerticalStrut(15));
         menu.add(btnLogout);
 
         menu.add(Box.createVerticalGlue());
@@ -79,11 +85,13 @@ public class AdminPanel extends JPanel {
         JPanel rolesPanel = buildPlaceholderPanel("Pantalla de administración de roles");
         JPanel booksPanel = buildPlaceholderPanel("Pantalla de administración de libros");
         JPanel categoriesPanel = new CategoryAdminPanel();
+        JPanel authorPanel = new AuthorPanel();
 
         registerScreen("usuarios", usersPanel);
         registerScreen("roles", rolesPanel);
         registerScreen("libros", booksPanel);
         registerScreen("categorias", categoriesPanel);
+        registerScreen("autor", authorPanel);
 
         showScreen("usuarios");
     }
