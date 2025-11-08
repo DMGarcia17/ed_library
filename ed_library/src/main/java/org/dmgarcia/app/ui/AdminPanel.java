@@ -1,7 +1,5 @@
 package org.dmgarcia.app.ui;
 
-import net.miginfocom.swing.MigLayout;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -52,6 +50,10 @@ public class AdminPanel extends JPanel {
         btnBooks.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnBooks.addActionListener(e->showScreen("libros"));
 
+        JButton btnCategories = new JButton("Categorías");
+        btnCategories.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnCategories.addActionListener(e->showScreen("categorias"));
+
         JButton btnLogout = new JButton("Cerrar Sesión");
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLogout.addActionListener(e->nav.logout());
@@ -62,6 +64,8 @@ public class AdminPanel extends JPanel {
         menu.add(btnRoles);
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnBooks);
+        menu.add(Box.createVerticalStrut(15));
+        menu.add(btnCategories);
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnLogout);
 
@@ -74,10 +78,12 @@ public class AdminPanel extends JPanel {
         JPanel usersPanel = new UsersAdminPanel();
         JPanel rolesPanel = buildPlaceholderPanel("Pantalla de administración de roles");
         JPanel booksPanel = buildPlaceholderPanel("Pantalla de administración de libros");
+        JPanel categoriesPanel = new CategoryAdminPanel();
 
         registerScreen("usuarios", usersPanel);
         registerScreen("roles", rolesPanel);
         registerScreen("libros", booksPanel);
+        registerScreen("categorias", categoriesPanel);
 
         showScreen("usuarios");
     }

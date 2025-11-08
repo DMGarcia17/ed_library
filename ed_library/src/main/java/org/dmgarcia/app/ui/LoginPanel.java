@@ -25,7 +25,7 @@ public class LoginPanel extends JPanel {
         add(lblPass);
         add(txtPass);
         add(new JLabel());
-        add(btnLogin, "right");
+        add(btnLogin, "left");
 
         btnLogin.addActionListener(e ->
                 nav.attemptLogin(txtUser.getText().trim(), new String(txtPass.getPassword()))
