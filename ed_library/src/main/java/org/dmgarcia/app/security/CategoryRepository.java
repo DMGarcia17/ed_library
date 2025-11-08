@@ -13,8 +13,7 @@ import java.util.Optional;
 public class CategoryRepository extends BaseRepository {
 
     public Optional<Category> find(Integer id) {
-        EntityManager em = JPAUtil.getEMF().createEntityManager();
-        try {
+        try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
             TypedQuery<Category> q = em.createQuery(
                     "SELECT c FROM Category c " +
                             "LEFT JOIN FETCH c.parent " +
@@ -29,8 +28,6 @@ public class CategoryRepository extends BaseRepository {
             }
 
             return Optional.ofNullable(cat);
-        } finally {
-            em.close();
         }
     }
 
@@ -68,5 +65,24 @@ public class CategoryRepository extends BaseRepository {
             }
             return null;
         });
+    }
+
+    public Optional<Category> findByCode(String categoryCode) {
+        try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
+            TypedQuery<Category> q = em.createQuery(
+                    "SELECT c FROM Category c " +
+                            "LEFT JOIN FETCH c.parent " +
+                            "WHERE c.code = :code", Category.class);
+            q.setParameter("code", categoryCode);
+
+            Category cat;
+            try {
+                cat = q.getSingleResult();
+            } catch (NoResultException e) {
+                cat = null;
+            }
+
+            return Optional.ofNullable(cat);
+        }
     }
 }

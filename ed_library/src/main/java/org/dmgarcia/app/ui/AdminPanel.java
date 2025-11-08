@@ -58,6 +58,10 @@ public class AdminPanel extends JPanel {
         btnAuthor.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnAuthor.addActionListener(e->showScreen("autor"));
 
+        JButton btnImport = new JButton("Importar");
+        btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnImport.addActionListener(e->showScreen("import"));
+
         JButton btnLogout = new JButton("Cerrar Sesión");
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLogout.addActionListener(e->nav.logout());
@@ -67,11 +71,13 @@ public class AdminPanel extends JPanel {
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnRoles);
         menu.add(Box.createVerticalStrut(15));
-        menu.add(btnBooks);
-        menu.add(Box.createVerticalStrut(15));
         menu.add(btnCategories);
         menu.add(Box.createVerticalStrut(15));
-        menu.add(btnAuthor);
+        menu.add(btnImport);
+        menu.add(Box.createVerticalStrut(15));
+        menu.add(btnBooks);
+        menu.add(Box.createVerticalStrut(15));
+        menu.add(btnImport);
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnLogout);
 
@@ -83,8 +89,9 @@ public class AdminPanel extends JPanel {
     private void registerDefaultScreens() {
         JPanel usersPanel = new UsersAdminPanel();
         JPanel rolesPanel = buildPlaceholderPanel("Pantalla de administración de roles");
-        JPanel booksPanel = buildPlaceholderPanel("Pantalla de administración de libros");
+        JPanel booksPanel = new BookAdminPanel();
         JPanel categoriesPanel = new CategoryAdminPanel();
+        JPanel importPanel = new BookImportsPanel();
         JPanel authorPanel = new AuthorPanel();
 
         registerScreen("usuarios", usersPanel);
@@ -92,6 +99,7 @@ public class AdminPanel extends JPanel {
         registerScreen("libros", booksPanel);
         registerScreen("categorias", categoriesPanel);
         registerScreen("autor", authorPanel);
+        registerScreen("import", importPanel);
 
         showScreen("usuarios");
     }

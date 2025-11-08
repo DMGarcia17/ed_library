@@ -4,22 +4,20 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.dmgarcia.app.infra.JPAUtil;
-import org.dmgarcia.app.model.Author;
+import org.dmgarcia.app.model.Book;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public class AuthorRepository extends BaseRepository {
+public class BookRepository extends BaseRepository {
 
-    public Optional<Author> find(Integer id) {
+    public Optional<Book> find(Integer id) {
         try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
-            TypedQuery<Author> q = em.createQuery(
-                    "SELECT c FROM Author c " +
-                            "WHERE c.idAuthor = :id", Author.class);
+            TypedQuery<Book> q = em.createQuery("SELECT c FROM Book c " + "LEFT JOIN FETCH c.idCategory LEFT JOIN FETCH c.idAuthor WHERE c.id = :id", Book.class);
             q.setParameter("id", id);
 
-            Author cat;
+            Book cat;
             try {
                 cat = q.getSingleResult();
             } catch (NoResultException e) {
@@ -30,18 +28,16 @@ public class AuthorRepository extends BaseRepository {
         }
     }
 
-    public List<Author> listActive() {
+    public List<Book> listActive() {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         try {
-            return em.createQuery(
-                    "select r from Author r where r.deletedAt is null order by r.idAuthor",
-                    Author.class).getResultList();
+            return em.createQuery("select r from Book r LEFT JOIN FETCH r.idCategory LEFT JOIN FETCH r.idAuthor where r.deletedAt is null order by r.id", Book.class).getResultList();
         } finally {
             em.close();
         }
     }
 
-    public Author save(Author r) {
+    public Book save(Book r) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         return inTx(em, e -> e.merge(r));
     }
@@ -49,7 +45,7 @@ public class AuthorRepository extends BaseRepository {
     public void softDelete(String code) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         inTx(em, e -> {
-            Author r = e.find(Author.class, code);
+            Book r = e.find(Book.class, code);
             if (r != null && r.getDeletedAt() == null) {
                 r.setDeletedAt(LocalDateTime.now());
             }
@@ -57,21 +53,19 @@ public class AuthorRepository extends BaseRepository {
         });
     }
 
-    public Optional<Author> findByAuthorIgnoreCase(String authorName) {
+    public Optional<Book> findByIsbn(String isbn) {
         try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
-            TypedQuery<Author> q = em.createQuery(
-                    "SELECT c FROM Author c " +
-                            "WHERE c.author = :name", Author.class);
-            q.setParameter("name", authorName);
+            TypedQuery<Book> q = em.createQuery("SELECT c FROM Book c " + "LEFT JOIN FETCH c.idCategory LEFT JOIN FETCH c.idAuthor WHERE c.isbn = :isbn", Book.class);
+            q.setParameter("isbn", isbn);
 
-            Author cat;
+            Book book;
             try {
-                cat = q.getSingleResult();
+                book = q.getSingleResult();
             } catch (NoResultException e) {
-                cat = null;
+                book = null;
             }
 
-            return Optional.ofNullable(cat);
+            return Optional.ofNullable(book);
         }
     }
 }
