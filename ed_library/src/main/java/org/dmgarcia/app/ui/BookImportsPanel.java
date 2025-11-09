@@ -28,6 +28,11 @@ public class BookImportsPanel extends JPanel {
     }
 
     private void initComponents() {
+        JPanel jp = new JPanel();
+        jp.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets= new Insets(4,4,4,4);
+        gbc.fill=GridBagConstraints.HORIZONTAL;
         JButton btnImport = new JButton("Importar");
         btnImport.addActionListener(new ActionListener() {
             @Override
@@ -35,7 +40,28 @@ public class BookImportsPanel extends JPanel {
                 btnImportActionPerformed(e);
             }
         });
-        add(btnImport);
+
+        gbc.gridx=0;
+        gbc.gridy=0;
+
+        jp.add(new JLabel("Seleccione el archivo que se desea cargar."), gbc);
+
+        gbc.gridx=0;
+        gbc.gridy=1;
+
+        jp.add(new JLabel("El archivo debe ser en formato CSV con la estructura:"), gbc);
+        gbc.gridx=0;
+        gbc.gridy=2;
+
+        jp.add(new JLabel("title ; author ; nationality ; biography ; category_code ; isbn ; synopsis"), gbc);
+
+
+        gbc.gridx=0;
+        gbc.gridy=3;
+
+        jp.add(btnImport, gbc);
+
+        add(jp, BorderLayout.CENTER);
     }
 
     private void btnImportActionPerformed(ActionEvent evt) {

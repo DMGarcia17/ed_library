@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class AdminPanel extends JPanel {
 
@@ -35,45 +36,41 @@ public class AdminPanel extends JPanel {
     private JPanel buildSideMenu(NavigationController nav) {
         JPanel menu = new JPanel();
         menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
-        menu.setPreferredSize(new Dimension(180,0));
-        menu.setBackground(new Color(235,235,235));
+        menu.setPreferredSize(new Dimension(180, 0));
+        menu.setBackground(new Color(235, 235, 235));
 
         JButton btnUsers = new JButton("Usuarios");
         btnUsers.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnUsers.addActionListener(e->showScreen("usuarios"));
+        btnUsers.addActionListener(e -> showScreen("usuarios", UsersAdminPanel::new));
 
         JButton btnRoles = new JButton("Roles");
         btnRoles.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnRoles.addActionListener(e->showScreen("roles"));
+        btnRoles.addActionListener(e -> showScreen("roles", null));
 
         JButton btnBooks = new JButton("Libros");
         btnBooks.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnBooks.addActionListener(e->showScreen("libros"));
+        btnBooks.addActionListener(e -> showScreen("libros", BookAdminPanel::new));
 
         JButton btnCategories = new JButton("Categorías");
         btnCategories.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnCategories.addActionListener(e->showScreen("categorias"));
+        btnCategories.addActionListener(e -> showScreen("categorias", CategoryAdminPanel::new));
 
         JButton btnAuthor = new JButton("Autores");
         btnAuthor.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnAuthor.addActionListener(e->showScreen("autor"));
+        btnAuthor.addActionListener(e -> showScreen("autor", AuthorPanel::new));
 
         JButton btnImport = new JButton("Importar");
         btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnImport.addActionListener(e->showScreen("import"));
+        btnImport.addActionListener(e -> showScreen("import", BookImportsPanel::new));
 
         JButton btnLogout = new JButton("Cerrar Sesión");
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnLogout.addActionListener(e->nav.logout());
+        btnLogout.addActionListener(e -> nav.logout());
 
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnUsers);
         menu.add(Box.createVerticalStrut(15));
-        menu.add(btnRoles);
-        menu.add(Box.createVerticalStrut(15));
         menu.add(btnCategories);
-        menu.add(Box.createVerticalStrut(15));
-        menu.add(btnImport);
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnBooks);
         menu.add(Box.createVerticalStrut(15));
@@ -101,7 +98,7 @@ public class AdminPanel extends JPanel {
         registerScreen("autor", authorPanel);
         registerScreen("import", importPanel);
 
-        showScreen("usuarios");
+        showScreen("usuarios", UsersAdminPanel::new);
     }
 
     private void registerScreen(String id, JComponent panel) {
@@ -109,8 +106,18 @@ public class AdminPanel extends JPanel {
         registeredPanels.put(id, panel);
     }
 
-    private void showScreen(String id) {
-        cardLayout.show(contentPanel, id);
+    private void showScreen(String id, Supplier<JComponent> screenSupplier) {
+        if (registeredPanels.containsKey(id)) {
+            contentPanel.remove(registeredPanels.get(id));
+            registeredPanels.remove(id);
+        }
+
+        JComponent newPanel = screenSupplier.get();
+        contentPanel.add(newPanel, id);
+        registeredPanels.put(id, newPanel);
+
+        CardLayout cl = (CardLayout) contentPanel.getLayout();
+        cl.show(contentPanel, id);
     }
 
     private JPanel buildPlaceholderPanel(String text) {
@@ -119,7 +126,7 @@ public class AdminPanel extends JPanel {
         return p;
     }
 
-    public JComponent getRegisteredPanel(String id){
+    public JComponent getRegisteredPanel(String id) {
         return registeredPanels.get(id);
     }
 }
