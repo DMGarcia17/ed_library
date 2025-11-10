@@ -141,4 +141,17 @@ public class UserRepository extends BaseRepository {
             return null;
         });
     }
+
+    public List<User> searchByUsernameOrName(String filter) {
+        try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
+            String like = "%" + filter.toLowerCase() + "%";
+            return em.createQuery(
+                            "select u from User u " +
+                                    "where u.deletedAt is null and (" +
+                                    " lower(u.username) like :t ) " +
+                                    "order by u.username", User.class)
+                    .setParameter("t", like)
+                    .getResultList();
+        }
+    }
 }

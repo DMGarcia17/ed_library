@@ -1,5 +1,6 @@
 package org.dmgarcia.app.service;
 
+import org.dmgarcia.app.infra.Params;
 import org.dmgarcia.app.model.Role;
 import org.dmgarcia.app.model.User;
 import org.dmgarcia.app.security.RoleRepository;
@@ -20,6 +21,7 @@ public class AuthService {
         if (opt.isEmpty()) return null;
         var user = opt.get();
         if(!BCrypt.checkpw(passwordPlain, user.getPasswordHash())) return null;
+        Params.setUser(user);
         return new SessionContext(user);
     }
 

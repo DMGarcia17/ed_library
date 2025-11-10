@@ -1,5 +1,6 @@
 package org.dmgarcia.app.ui;
 
+import org.dmgarcia.app.infra.Params;
 import org.dmgarcia.app.security.SessionContext;
 import org.dmgarcia.app.service.AuthService;
 
@@ -44,6 +45,7 @@ public class NavigationController {
     }
 
     public void logout() {
+        Params.destroy();
         session = null; showLogin();
     }
 }

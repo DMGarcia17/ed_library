@@ -129,4 +129,11 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public String getFullName(){
+        return this.firstName+" "
+                +((!this.middleName.isEmpty())?this.middleName+" ":"")
+                +((!this.lastName.isEmpty())?this.lastName+" ":"")
+                +((!this.familyName.isEmpty())?this.familyName:"");
+    }
 }

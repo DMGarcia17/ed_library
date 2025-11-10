@@ -68,4 +68,13 @@ public class BookRepository extends BaseRepository {
             return Optional.ofNullable(book);
         }
     }
+
+    public List<Book> findByTitle(String filter) {
+        try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
+            TypedQuery<Book> q = em.createQuery("SELECT c FROM Book c " + "LEFT JOIN FETCH c.idCategory LEFT JOIN FETCH c.idAuthor WHERE lower(c.title) like :name", Book.class);
+            q.setParameter("name", '%'+filter.toLowerCase()+'%');
+
+            return q.getResultList();
+        }
+    }
 }
