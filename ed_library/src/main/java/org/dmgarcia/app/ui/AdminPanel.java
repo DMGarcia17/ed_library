@@ -63,9 +63,13 @@ public class AdminPanel extends JPanel {
         btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnImport.addActionListener(e -> showScreen("import", BookImportsPanel::new));
 
-        JButton btnLoan = new JButton("loan");
+        JButton btnLoan = new JButton("Prestar Libro");
         btnLoan.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLoan.addActionListener(e -> showScreen("loan", BookLoanPanel::new));
+
+        JButton btnInfo = new JButton("Modificar mi información");
+        btnInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnInfo.addActionListener(e -> showScreen("myInfo", UserProfilePanel::new));
 
         JButton btnLogout = new JButton("Cerrar Sesión");
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -82,6 +86,8 @@ public class AdminPanel extends JPanel {
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnLoan);
         menu.add(Box.createVerticalStrut(15));
+        menu.add(btnInfo);
+        menu.add(Box.createVerticalStrut(15));
         menu.add(btnLogout);
 
         menu.add(Box.createVerticalGlue());
@@ -97,6 +103,7 @@ public class AdminPanel extends JPanel {
         JPanel importPanel = new BookImportsPanel();
         JPanel authorPanel = new AuthorPanel();
         JPanel bookLoanPanel = new BookLoanPanel();
+        JPanel informationPanel = new UserProfilePanel();
 
         registerScreen("usuarios", usersPanel);
         registerScreen("roles", rolesPanel);
@@ -105,6 +112,7 @@ public class AdminPanel extends JPanel {
         registerScreen("autor", authorPanel);
         registerScreen("import", importPanel);
         registerScreen("loan", bookLoanPanel);
+        registerScreen("myInfo", informationPanel);
 
         showScreen("usuarios", UsersAdminPanel::new);
     }

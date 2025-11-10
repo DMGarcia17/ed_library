@@ -213,13 +213,6 @@ public class UsersAdminPanel extends JPanel {
             cbRole.setSelectedItem(((Role)user.getRoles().stream().findFirst().get()).getCode().toUpperCase());
             dcBirthdate.setDate(Date.from(user.getBirthday().atStartOfDay(ZoneId.of("America/El_Salvador")).toInstant()));
         }
-/*
-
-        txtUsername.setText((String) usersModel.getValueAt(row, 0));
-        txtFirstName.setText((String) usersModel.getValueAt(row, 1));
-        txtLpu.setText((String) usersModel.getValueAt(row, 2));
-        cbRole.setSelectedItem(usersModel.getValueAt(row, 3).toString().toUpperCase());
-*/
 
         txtUsername.setEnabled(false);
     }

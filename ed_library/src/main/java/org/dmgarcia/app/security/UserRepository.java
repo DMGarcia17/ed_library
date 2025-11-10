@@ -1,6 +1,7 @@
 package org.dmgarcia.app.security;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import org.dmgarcia.app.infra.JPAUtil;
 import org.dmgarcia.app.model.Role;
 import org.dmgarcia.app.model.User;
@@ -20,8 +21,7 @@ public class UserRepository extends BaseRepository {
     }
 
     public Optional<User> findActiveWithRoles(String username){
-        EntityManager em = JPAUtil.getEMF().createEntityManager();
-        try{
+        try (EntityManager em = JPAUtil.getEMF().createEntityManager()) {
             var q = em.createQuery(
                     "select distinct u from User u " +
                             "left join fetch u.roles r " +
@@ -29,8 +29,6 @@ public class UserRepository extends BaseRepository {
                             "and (r.deletedAt is null or r is null)", User.class);
             q.setParameter("u", username);
             return q.getResultStream().findFirst();
-        } finally {
-            em.close();
         }
     }
 
@@ -88,6 +86,24 @@ public class UserRepository extends BaseRepository {
     public User save(User u) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         return inTx(em, e -> e.merge(u));
+    }
+
+    public void updatePassword(String username, String passwordHash) {
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            User u = em.find(User.class, username);
+            if (u != null) {
+                u.setPasswordHash(passwordHash);
+                u.setLastUpdatePassword(LocalDateTime.now());
+                em.merge(u);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        }
     }
 
     /** Soft delete */
