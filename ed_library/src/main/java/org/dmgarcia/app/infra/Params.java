@@ -4,7 +4,7 @@ import org.dmgarcia.app.model.User;
 
 public class Params {
     private static Params instance = new Params();
-    private static User user;
+    private User user;
 
     private Params(){}
 
@@ -14,13 +14,14 @@ public class Params {
 
     public static void destroy(){
         instance = new Params();
+        instance.user = null;
     }
 
     public static User getUser() {
-        return user;
+        return instance.user;
     }
 
     public static void setUser(User user) {
-        Params.user = user;
+        instance.user = user;
     }
 }

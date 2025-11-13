@@ -40,6 +40,7 @@ public class NavigationController {
             return;
         }
         this.session = ctx;
+        Params.setUser(ctx.getUser());
         if (ctx.isAdmin()) showAdmin();
         else showUser();
     }

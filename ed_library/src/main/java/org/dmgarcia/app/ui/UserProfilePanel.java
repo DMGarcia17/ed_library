@@ -29,15 +29,16 @@ public class UserProfilePanel extends JPanel {
 
     private User currentUser;
 
-    public UserProfilePanel() {
+    public UserProfilePanel(User currentUser) {
         this.userRepo = new UserRepository();
         setLayout(new BorderLayout());
 
-        currentUser = Params.getUser();
         if (currentUser == null) {
             add(new JLabel("No hay usuario en sesión"), BorderLayout.CENTER);
             return;
         }
+
+        this.currentUser = currentUser;
 
         // ===== datos básicos =====
         JPanel dataPanel = new JPanel(new GridBagLayout());

@@ -21,7 +21,6 @@ public class AuthService {
         if (opt.isEmpty()) return null;
         var user = opt.get();
         if(!BCrypt.checkpw(passwordPlain, user.getPasswordHash())) return null;
-        Params.setUser(user);
         return new SessionContext(user);
     }
 

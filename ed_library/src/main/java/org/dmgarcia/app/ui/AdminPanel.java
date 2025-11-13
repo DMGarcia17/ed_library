@@ -1,5 +1,7 @@
 package org.dmgarcia.app.ui;
 
+import org.dmgarcia.app.infra.Params;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -69,7 +71,7 @@ public class AdminPanel extends JPanel {
 
         JButton btnInfo = new JButton("Modificar mi información");
         btnInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnInfo.addActionListener(e -> showScreen("myInfo", UserProfilePanel::new));
+        btnInfo.addActionListener(e -> showScreen("myInfo", () -> new UserProfilePanel(Params.getUser())));
 
         JButton btnLogout = new JButton("Cerrar Sesión");
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -103,7 +105,7 @@ public class AdminPanel extends JPanel {
         JPanel importPanel = new BookImportsPanel();
         JPanel authorPanel = new AuthorPanel();
         JPanel bookLoanPanel = new BookLoanPanel();
-        JPanel informationPanel = new UserProfilePanel();
+        JPanel informationPanel = new UserProfilePanel(Params.getUser());
 
         registerScreen("usuarios", usersPanel);
         registerScreen("roles", rolesPanel);
