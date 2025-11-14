@@ -1,6 +1,5 @@
 package org.dmgarcia.app.ui;
 
-import net.miginfocom.swing.MigLayout;
 import org.dmgarcia.app.infra.Params;
 
 import javax.swing.*;
@@ -40,11 +39,17 @@ public class UserPanel extends JPanel {
         btnInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnInfo.addActionListener(e -> showScreen("myInfo", () -> new UserProfilePanel(Params.getUser())));
 
+        JButton btnLoan = new JButton("Prestar libros");
+        btnLoan.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnLoan.addActionListener(e -> showScreen("myLoans", MyLoansPanel::new));
+
         JButton btnLogout = new JButton("Cerrar Sesión");
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLogout.addActionListener(e -> nav.logout());
 
 
+        menu.add(Box.createVerticalStrut(15));
+        menu.add(btnLoan);
         menu.add(Box.createVerticalStrut(15));
         menu.add(btnInfo);
         menu.add(Box.createVerticalStrut(15));
@@ -58,9 +63,10 @@ public class UserPanel extends JPanel {
     private void registerDefaultScreens() {
 
         registerScreen("myInfo", new UserProfilePanel(Params.getUser()));
+        registerScreen("myLoans", new MyLoansPanel());
         registerScreen("default", new JPanel());
 
-        showScreen("default", ()->new JPanel());
+        showScreen("default", JPanel::new);
     }
 
     private void registerScreen(String id, JComponent panel) {

@@ -230,7 +230,7 @@ public class UsersAdminPanel extends JPanel {
                 break;
             }
             usersModel.addRow(new Object[]{u.getUsername(),
-                    u.getFirstName(),
+                    u.getFullName(),
                     u.getLastUpdatePassword().format(dtf),
                     ((Role) found.get()).getCode()});
         }
@@ -295,7 +295,7 @@ public class UsersAdminPanel extends JPanel {
             usersModel.addRow(new Object[]{username, firstName, email, role});
         } else {
             usersModel.setValueAt(username, selected, 0);
-            usersModel.setValueAt(firstName, selected, 1);
+            usersModel.setValueAt(user.getFullName(), selected, 1);
             usersModel.setValueAt(email, selected, 2);
             usersModel.setValueAt(role, selected, 3);
         }

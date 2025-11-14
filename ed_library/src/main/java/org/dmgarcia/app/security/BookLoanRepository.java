@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import org.dmgarcia.app.infra.JPAUtil;
 import org.dmgarcia.app.model.BookLoan;
+import org.dmgarcia.app.model.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -136,5 +137,45 @@ public class BookLoanRepository {
             if (tx.isActive()) tx.rollback();
             throw e;
         }
+    }
+
+    public List<BookLoan> findAll(User username) {
+        return em.createQuery("""
+                SELECT bl FROM BookLoan bl
+                LEFT JOIN FETCH bl.user LEFT JOIN FETCH bl.book WHERE bl.user=:username
+                ORDER BY bl.loanDate DESC
+                """, BookLoan.class)
+                .setParameter("username", username)
+                .getResultList();
+    }
+
+    public List<BookLoan> findReturned(User username) {
+        return em.createQuery("""
+                SELECT bl FROM BookLoan bl
+                LEFT JOIN FETCH bl.user LEFT JOIN FETCH bl.book
+                WHERE (bl.returned = true
+                       AND bl.canceled = false)
+                  OR (bl.returned = false
+                      AND bl.canceled = true)
+                  AND bl.user = :username
+                ORDER BY bl.returnDate DESC
+                """, BookLoan.class)
+                .setParameter("username", username)
+                .getResultList();
+    }
+
+    public List<BookLoan> findActive(User username) {
+        return em.createQuery("""
+                SELECT bl FROM BookLoan bl
+                LEFT JOIN FETCH bl.user LEFT JOIN FETCH bl.book
+                WHERE bl.user = :username
+                  AND bl.returned = false
+                  AND bl.canceled = false
+                  AND bl.loanDate <= :today
+                ORDER BY bl.loanDate DESC
+                """, BookLoan.class)
+                .setParameter("today", LocalDate.now())
+                .setParameter("username", username)
+                .getResultList();
     }
 }
